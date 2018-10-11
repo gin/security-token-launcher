@@ -1,0 +1,26 @@
+body {
+  background: #1d213e;
+  color: hsla(0,0%,100%,0.8);
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid rgba(176,180,207,0.087);
+}
+h1 {
+  color: #fff;
+}
+li {
+  list-style-type: none;
+  border-bottom: 1px solid rgba(176,180,207,0.175);
+  padding: 10px 10px 10px 20px;
+  /*
+  line-height: 20px;
+  position: relative;
+  */
+}
+.container {
+  background: #272b49;
+  /*
+  padding-top: 50px;
+  */
+  padding: 20px 30px 20px 30px;
+}
