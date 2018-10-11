@@ -2,7 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  node: {fs: 'empty'},
+  target: 'node',
+  "browser": {
+    "fs": false,
+    "child_process":false
+  },
+  node: {
+    fs: 'empty',
+    child_process: 'empty'
+  },
   entry: './app/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),

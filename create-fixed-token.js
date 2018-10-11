@@ -1,6 +1,3 @@
-import React from 'react';
-
-// Copied from wormhole-sdk example/create-fixed-token
 /*
   Consume 1 WHC to create a new fixed token.
 */
@@ -20,7 +17,7 @@ const fs = require("fs")
 // Open the wallet generated with create-wallet.
 let walletInfo
 try {
-  walletInfo = require(`../../wallet.json`)
+  walletInfo = require(`./wallet.json`)
 } catch (err) {
   console.log(
     `Could not open wallet.json. Generate a wallet with create-wallet first.
@@ -30,7 +27,7 @@ try {
 }
 
 // Create a fixed token.
-async function createFixedToken(category, subcategory, name, url, description, amount) {
+async function createFixedToken() {
   try {
     const mnemonic = walletInfo.mnemonic
 
@@ -57,18 +54,14 @@ async function createFixedToken(category, subcategory, name, url, description, a
       1, // Ecosystem, must be 1.
       8, // Precision, number of decimal places. Must be 0-8.
       0, // Predecessor token. 0 for new tokens.
-      category,
-      subcategory,
-      name,
-      url,
-      description,
-      amount
-      //      "Companies", // Category.
-      //      "Bitcoin Cash Mining", // Subcategory
-      //      "QMC", // Name/Ticker
-      //      "www.qmc.cash", // URL
-      //      "Made with BITBOX", // Description.
-      //      "1000" // amount
+
+      "Token sale", // Category
+      "Fractional home ownership", // SubCategory.
+      "15 Sandy Ln Pittsford, NY 14534",
+      "www.zillow.com",
+      "demo",
+      //"www.zillow.com/homedetails/15-Sandy-Ln-Pittsford-NY-14534/31026429_zpid/",
+      "1000" // amount
     )
 
     // Get a utxo to use for this transaction.
@@ -105,8 +98,7 @@ async function createFixedToken(category, subcategory, name, url, description, a
 
     // sendRawTransaction to running BCH node
     const broadcast = await Wormhole.RawTransactions.sendRawTransaction(txHex)
-    await console.log(`Transaction ID: ${broadcast}`)
-    await alert(`Transaction ID: ${broadcast}`)
+    console.log(`Transaction ID: ${broadcast}`)
 
     // Write out the basic information into a json file for other apps to use.
     const tokenInfo = { tokenTx: broadcast }
@@ -120,7 +112,7 @@ async function createFixedToken(category, subcategory, name, url, description, a
     console.log(err)
   }
 }
-//createFixedToken()
+createFixedToken()
 
 // SUPPORT/PRIVATE FUNCTIONS BELOW
 
@@ -140,110 +132,3 @@ function findBiggestUtxo(utxos) {
 
   return utxos[largestIndex]
 }
-
-
-
-class MultiParamForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isGoing: true,
-      numberOfGuests: 2,
-
-      ownershipNum: '',
-      address: '',
-      name: 'Home',
-      url: '',
-      category: 'Home',
-      subcategory: 'Home',
-      description: '',
-      amount: '',
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(event) {
-    alert(`Created ${this.state.ownershipNum}
-
-    ${this.state.amount} tokens for the home at
-
-    ${this.state.address}
-
-    ${this.state.url}`);
-    //createFixedToken(this.state.category, this.state.subcategory, this.state.name, this.state.url, this.state.description, this.state.amount)
-    //createFixedToken()
-    //console.log(`${this.state.category}\n${this.state.subcategory}\n${this.state.name}\n${this.state.url}`)
-    event.preventDefault();
-  }
-
-
-  render() {
-    return (
-      <div>
-        <h3>Tokenize Form</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Ownership #:
-            <br />
-            <input
-              name="ownershipNum"
-              type="string"
-              value={this.state.ownershipNum}
-              onChange={this.handleInputChange} />
-          </label>
-          <br />
-          <br />
-          <label>
-            Address:
-            <br />
-            <input
-              name="address"
-              type="string"
-              value={this.state.address}
-              onChange={this.handleInputChange} />
-          </label>
-          <br />
-          <br />
-
-          <label>
-            URL (e.g. Zillow, Redfin):
-            <br />
-            <input
-              name="url"
-              type="string"
-              value={this.state.url}
-              onChange={this.handleInputChange} />
-          </label>
-          <br />
-          <br />
-          <label>
-            Amount of tokens to issue:
-            <br />
-            <input
-              name="amount"
-              type="string"
-              value={this.state.amount}
-              onChange={this.handleInputChange} />
-          </label>
-          <br />
-          <br />
-          <input type="submit" value="Create tokens for my home now" />
-        </form>
-      </div>
-    );
-  }
-}
-
-export default MultiParamForm
