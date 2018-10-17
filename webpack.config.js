@@ -3,10 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   target: 'node',
-  "browser": {
-    "fs": false,
-    "child_process":false
-  },
+  //  "browser": {
+  //    "fs": false,
+  //    "child_process":false
+  //  },
   node: {
     fs: 'empty',
     child_process: 'empty'
